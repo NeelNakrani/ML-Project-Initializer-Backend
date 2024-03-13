@@ -11,7 +11,8 @@ class GenerateProjectRequestDTO:
 
     @staticmethod
     def validate(data) -> "GenerateProjectRequestDTO":
-        required_fields = ['projectName', 'description', 'packageManager', 'modelType', 'packages']
+        print(data)
+        required_fields = ['projectName', 'description','packageManager', 'modelType', 'packages']
 
         for field in required_fields:
             if field not in data:

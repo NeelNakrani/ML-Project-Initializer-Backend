@@ -1,5 +1,6 @@
 from django.conf import settings
+import os
 
-
-GENERATED_PROJECT_BASE_DIR = 'resource/template/project_name'
-GENERATED_ZIP_DIR = 'resource/generated_zip'
+TEMPLATE_BASE_DIR = os.path.join(settings.BASE_DIR, 'project_generator', 'resource', 'template', 'project_name')
+GENERATED_ZIP_DIR = os.path.join(settings.BASE_DIR, 'project_generator', 'resource', 'generated_zip')
+GENERATED_BASE_DIR = os.path.join(settings.BASE_DIR, 'project_generator', 'resource', 'generated_template')
