@@ -2,6 +2,10 @@ import zipfile
 from .constants import GENERATED_ZIP_DIR
 import os
 import io
+import uuid
+from datetime import datetime
+from .constants import TEMPLATE_BASE_DIR, GENERATED_BASE_DIR
+import shutil
 
 
 def generate_zip(directory_to_zip, zip_file_name):
@@ -24,3 +28,15 @@ def generate_zip(directory_to_zip, zip_file_name):
                 zipf.write(file_path, arcname)
     zip_buffer.seek(0)
     return zip_buffer
+
+
+def clone_template(project_name):
+    destination_dir = get_destination_dir(project_name)
+    shutil.copytree(TEMPLATE_BASE_DIR, destination_dir)
+    return destination_dir
+
+
+def get_destination_dir(project_name):
+    unique_id = datetime.now().strftime("%Y%m%d%H%M%S") + "_" + str(uuid.uuid4())
+    destination_dir_name = f"{project_name}_{unique_id}"
+    return os.path.join(GENERATED_BASE_DIR, destination_dir_name)

@@ -1,24 +1,17 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .dto import GenerateProjectRequestDTO
+from .mapper import response_mapper, request_mapper
 from .template_modifier import modify_template
-from .zip_generator import generate_zip
-import json
-from .constants import GENERATED_ZIP_DIR
+from json import loads
+
 
 @csrf_exempt
 def generate_project(request):
     try:
-        print('request')
-        data = json.loads(request.body)
-        dto = GenerateProjectRequestDTO.validate(data)
-
-        zip_buffer = modify_template(dto)
-        response = HttpResponse(zip_buffer, content_type='application/zip')
-        response['Content-Disposition'] = f'attachment; filename="{dto.project_name}.zip"'
-        return response
+        request_dto = request_mapper(loads(request.body))
+        zip_buffer = modify_template(request_dto)
+        return response_mapper(zip_buffer, request_dto.project_name)
 
     except ValueError as e:
         return HttpResponse(str(e), status=400)

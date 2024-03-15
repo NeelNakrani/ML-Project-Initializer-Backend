@@ -1,18 +1,8 @@
-from .constants import TEMPLATE_BASE_DIR, GENERATED_BASE_DIR
 import shutil
 import os
-import uuid
-from datetime import datetime
 from .dto import GenerateProjectRequestDTO
-from .zip_generator import generate_zip
+from .utils import generate_zip, clone_template
 
-
-def copy_template_to_generated_dir(project_name):
-    unique_id = datetime.now().strftime("%Y%m%d%H%M%S") + "_" + str(uuid.uuid4())
-    destination_dir_name = f"{project_name}_{unique_id}"
-    destination_dir = os.path.join(GENERATED_BASE_DIR, destination_dir_name)
-    shutil.copytree(TEMPLATE_BASE_DIR, destination_dir)
-    return destination_dir
 
 def modify_project_description(destination_dir, description):
     readme_path = os.path.join(destination_dir, "README.md")
@@ -57,8 +47,10 @@ def generate_script_files(destination_dir, package_manager):
         os.remove(setup_pip_bat)
         os.rename(setup_conda_bat, os.path.join(destination_dir, 'setup.bat'))
 
+
 def modify_template(dto: GenerateProjectRequestDTO):
-    destination_dir = copy_template_to_generated_dir(dto.project_name)
+    # Step 1: modify Template based on user request
+    destination_dir = clone_template(dto.project_name)
     modify_project_description(destination_dir, dto.description)
     add_packages_to_requirements(destination_dir, dto.packages)
     generate_script_files(destination_dir, dto.package_manager)
@@ -67,6 +59,5 @@ def modify_template(dto: GenerateProjectRequestDTO):
     zip_file_name = f"{dto.project_name}.zip"
     zip_buffer = generate_zip(destination_dir, zip_file_name)
 
-    #  todo: change scripting files, generate zip
     delete_generated_template(destination_dir)
     return zip_buffer
