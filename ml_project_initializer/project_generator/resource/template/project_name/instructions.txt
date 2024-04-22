@@ -1,0 +1,54 @@
+Project Setup Instructions
+===========================
+
+This document provides instructions for setting up the project environment on Windows and Linux operating systems using provided setup scripts.
+
+Prerequisites:
+- Python 3.x installed
+
+Setup Instructions:
+--------------------
+
+Windows:
+--------
+1. Open a Command Prompt in the project directory.
+2. Run the setup script by typing:
+   setup.bat
+   and press Enter.
+This script will create a virtual environment, activate it, and install all required dependencies listed in requirements.txt.
+
+Linux:
+------
+1. Open a Terminal in the project directory.
+2. First, make the setup script executable by typing:
+   chmod +x setup.sh
+   and press Enter.
+3. Run the setup script by typing:
+   ./setup.sh
+   and press Enter.
+Similar to Windows, this script will create a virtual environment, activate it, and install all required dependencies.
+
+Activating the Virtual Environment Manually:
+--------------------------------------------
+If you need to activate the virtual environment manually after it's been created:
+
+Windows:
+   .\venv\Scripts\activate
+
+Linux:
+   source venv/bin/activate
+
+Deactivating the Virtual Environment:
+-------------------------------------
+To deactivate the virtual environment, simply type:
+deactivate
+and press Enter, in both Windows and Linux terminals.
+
+Running the Project:
+--------------------
+- Add specific instructions for running your project here, such as how to start a development server or execute a particular script.
+
+Additional Notes:
+-----------------
+- Ensure Python and pip are correctly installed and accessible from your command line or terminal.
+- The setup scripts are intended to simplify the initial setup process. If you encounter issues, verify your Python installation and the contents of the setup scripts.
